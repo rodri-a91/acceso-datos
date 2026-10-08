@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ceu.dam.ad.users.dao.UserRepository;
 import ceu.dam.ad.users.model.User;
@@ -12,7 +14,8 @@ import ceu.dam.ad.users.model.User;
 public class UserServiceImp extends Service implements UserService {
 
 	private final UserRepository repo;
-
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
+	 
 	public UserServiceImp() {
 		repo = new UserRepository();
 	}
@@ -20,25 +23,35 @@ public class UserServiceImp extends Service implements UserService {
 	@Override
 	public User createUser(User user) throws DuplicateUserException, UserException {
 		try (Connection conn = abrirConexion()) {
+			logger.info("Creando usuario con estos datos: " + user);
 //			1. Verificar que no existe usuario con ese email ni ese username. En caso contrario, lanzar DuplicateUserException
 			User emailConsul = repo.getByEmail(conn, user.getEmail());
 			User usernameConsul = repo.getByUserName(conn, user.getUsername());
 
-			if (emailConsul != null || usernameConsul != null)
+			if (emailConsul != null || usernameConsul != null) {
+				logger.debug("Se está intentando crear un usuario duplicado");
 				throw new DuplicateUserException("Este usuario ya está registrado");
+			}
 
 //			2. Registrar el usuario en BBDD completando su fecha de alta y cifrando su password con SHA3-256
 			user.setCreatedDate(LocalDate.now());
 			user.setPassword(DigestUtils.sha3_256Hex(user.getPassword()));
 
 			Long id = repo.insert(conn, user);
+			
+			if (id == null) {
+				logger.error("Error creando usuario. El ID devuelto por BBDD es NULL");
+				throw new UserException("Error creando el usuario, id null");
+			}
 
 //			3. Devolver el usuario con todos sus datos (incluyendo el ID) 
 			user.setId(id);
+			logger.info("Usuario creado con ID " + id);
 			return user;
 
 //			4. Si hay algún error, lanzará UserException con el origen	
 		} catch (SQLException e) {
+			logger.error("Error creando usuario en BBDD", e);
 			throw new UserException("Error conectando a BBDD", e);
 		}
 	}
