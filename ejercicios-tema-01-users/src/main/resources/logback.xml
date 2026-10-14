@@ -1,0 +1,31 @@
+<configuration>
+	<!-- Appender para escribir logs en la consola -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} -
+				%msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- Appender para escribir logs en un archivo -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>c:/temporal/logs/app.log</file> <!-- Nombre del archivo de log -->
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory> <!-- Mantener archivos por 30 días -->
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} -
+				%msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- Configuración de nivel global -->
+	<root level="DEBUG">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+	<!-- Configuración específica para un paquete/clase -->
+	<logger name="org.mariadb" level="INFO"/>
+	<!-- <logger name="x.y.z" level="INFO" /> -->
+</configuration>
