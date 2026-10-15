@@ -2,10 +2,9 @@ package ceu.dam.ad.pedidos.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,13 @@ import ceu.dam.ad.pedidos.dao.ArticuloPedidoRepository;
 import ceu.dam.ad.pedidos.dao.PedidoRepository;
 import ceu.dam.ad.pedidos.model.ArticuloPedido;
 import ceu.dam.ad.pedidos.model.Pedido;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PedidoServiceImp implements PedidoService {
 	private final PedidoRepository repo;
 	private final ArticuloPedidoRepository repoArticulo;
-	private static final Logger logger = LoggerFactory.getLogger(PedidoServiceImp.class);
+//	private static final Logger logger = LoggerFactory.getLogger(PedidoServiceImp.class);
 
 	PedidoServiceImp(PedidoRepository repo, ArticuloPedidoRepository repoArticulo) {
 		this.repo = repo;
@@ -29,19 +29,13 @@ public class PedidoServiceImp implements PedidoService {
 	public Pedido consultarPedido(Long idPedido) throws PedidoException, PedidoNotFoundException {
 		try {
 
-			Optional<Pedido> pedidoConsul = repo.findById(idPedido);
-
-			if (pedidoConsul.isEmpty()) {
-				throw new PedidoNotFoundException("El pedido no existe");
-			}
+			Pedido pedidoConsul = repo.findById(idPedido).orElseThrow(() -> new PedidoNotFoundException());
 
 			List<ArticuloPedido> articulos = repoArticulo.findByIdPedido(idPedido);
 
-			Pedido pedido = pedidoConsul.get();
+			pedidoConsul.setArticulos(articulos);
 
-			pedido.setArticulos(articulos);
-
-			return pedido;
+			return pedidoConsul;
 
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -50,6 +44,7 @@ public class PedidoServiceImp implements PedidoService {
 	}
 
 	@Override
+	@Transactional
 	public Pedido crearPedido(Pedido pedido) throws PedidoException {
 		try {
 
@@ -65,7 +60,7 @@ public class PedidoServiceImp implements PedidoService {
 
 			for (ArticuloPedido articuloPedido : articulos) {
 				if (!articuloPedido.getExentoIva()) {
-					impuestos = impuestos.add(articuloPedido.getPrecioSinIva().multiply(BigDecimal.valueOf(0.21)));
+					impuestos = impuestos.add(articuloPedido.getPrecioSinIva().multiply(BigDecimal.valueOf(0.21).setScale(2)));
 
 				}
 			}
@@ -73,7 +68,14 @@ public class PedidoServiceImp implements PedidoService {
 
 			pedido.setTotal(subtotal.add(impuestos));
 
-			return repo.save(pedido);
+			repo.save(pedido);
+
+			for (ArticuloPedido articuloPedido : articulos) {
+				articuloPedido.setIdPedido(pedido.getIdPedido());
+				repoArticulo.save(articuloPedido);
+			}
+
+			return pedido;
 
 		} catch (DataAccessException e) {
 			e.printStackTrace();
