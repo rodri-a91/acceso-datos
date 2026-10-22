@@ -18,14 +18,16 @@ public class ArticuloPedido {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "id_pedido")
-	private Long idPedido;
+	
 	@Column(name = "codigo_barras")
 	private String codBarras;
+	
 	@Column(name = "descripcion")
 	private String descripcionArticulo;
+	
 	@Column(name = "precio")
 	private BigDecimal precioSinIva;
+	
 	@Column(name = "exento")
 	private Boolean exentoIva; 
 

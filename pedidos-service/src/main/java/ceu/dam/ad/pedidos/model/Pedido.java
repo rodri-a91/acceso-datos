@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -20,14 +23,18 @@ public class Pedido {
 	@Column(name = "id")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long idPedido;
+	
 	@Column(name = "fecha")
 	private LocalDate fechaPedido;
+	
 	@Column(name = "cliente")
 	private String dniCliente;
 	private BigDecimal total;
 	private BigDecimal subtotal;
 	private BigDecimal impuestos;
-	@Transient
+	
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinColumn(name="id_pedido", nullable = false)
 	private List<ArticuloPedido> articulos;
 	
 
