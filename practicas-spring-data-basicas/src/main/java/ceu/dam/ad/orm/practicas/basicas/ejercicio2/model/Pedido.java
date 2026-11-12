@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+<<<<<<< HEAD
 public class Pedido {
 	
 	private UUID uidPedido;
@@ -41,10 +42,37 @@ public class Pedido {
 	public String toString() {
 		return "Pedido [uidPedido=" + uidPedido + ", fecha=" + fecha + ", lineas=" + lineas + "]";
 	}
+=======
+import org.hibernate.annotations.JdbcTypeCode;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
+import lombok.Data;
+
+@Data
+@Entity
+public class Pedido {
+
+	@Id
+	@GeneratedValue
+	@JdbcTypeCode(java.sql.Types.VARCHAR)
+	private UUID uidPedido;
+	private Cliente cliente;
+	private Date fecha;
+	@Transient
+	private List<PedidoLinea> lineas;
+
+>>>>>>> 6f88b4af03db3f55d701bd39d441e0200dcf7747
 	@Override
 	public int hashCode() {
 		return Objects.hash(uidPedido);
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6f88b4af03db3f55d701bd39d441e0200dcf7747
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -56,7 +84,11 @@ public class Pedido {
 		Pedido other = (Pedido) obj;
 		return Objects.equals(uidPedido, other.uidPedido);
 	}
+<<<<<<< HEAD
 	
 	
 	
+=======
+
+>>>>>>> 6f88b4af03db3f55d701bd39d441e0200dcf7747
 }

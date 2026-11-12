@@ -1,5 +1,6 @@
 package ceu.dam.ad.orm.practicas.basicas.ejercicio2.model;
 
+<<<<<<< HEAD
 public class Articulo {
 	
 	private Long id;
@@ -31,4 +32,23 @@ public class Articulo {
 	
 	
 	
+=======
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+@Data
+@Entity
+public class Articulo {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	private String descripcion;
+	@Column(name = "codigo_barras")
+	private String codBarras;
+
+>>>>>>> 6f88b4af03db3f55d701bd39d441e0200dcf7747
 }
