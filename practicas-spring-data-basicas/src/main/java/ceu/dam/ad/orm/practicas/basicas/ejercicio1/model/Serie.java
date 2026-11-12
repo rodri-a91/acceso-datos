@@ -22,16 +22,15 @@ public class Serie {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String descripcion;
-	
+
 	@Column(name = "fecha_estreno")
 	private Date estreno;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_trailer")
+	@JoinColumn(name = "id_trailer")
 	private Trailer trailer;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="id_serie")
+	@JoinColumn(name = "id_serie")
 	private List<Temporada> temporadas;
 
-	
 }

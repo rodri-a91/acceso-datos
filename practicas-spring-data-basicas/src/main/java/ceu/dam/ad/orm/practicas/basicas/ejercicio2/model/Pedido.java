@@ -5,50 +5,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-<<<<<<< HEAD
-public class Pedido {
-	
-	private UUID uidPedido;
-	private Cliente cliente;
-	private Date fecha;
-	private List<PedidoLinea> lineas;
-	
-
-	public UUID getUidPedido() {
-		return uidPedido;
-	}
-	public void setUidPedido(UUID uidPedido) {
-		this.uidPedido = uidPedido;
-	}
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-	public Date getFecha() {
-		return fecha;
-	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-	public List<PedidoLinea> getLineas() {
-		return lineas;
-	}
-	public void setLineas(List<PedidoLinea> lineas) {
-		this.lineas = lineas;
-	}
-	@Override
-	public String toString() {
-		return "Pedido [uidPedido=" + uidPedido + ", fecha=" + fecha + ", lineas=" + lineas + "]";
-	}
-=======
 import org.hibernate.annotations.JdbcTypeCode;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -58,21 +25,23 @@ public class Pedido {
 	@Id
 	@GeneratedValue
 	@JdbcTypeCode(java.sql.Types.VARCHAR)
+	@Column(name = "uuid_pedido")
 	private UUID uidPedido;
+
+	@JoinColumn(name = "dni_cliente", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Cliente cliente;
+
 	private Date fecha;
-	@Transient
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "uuid_pedido", nullable = false)
 	private List<PedidoLinea> lineas;
 
->>>>>>> 6f88b4af03db3f55d701bd39d441e0200dcf7747
 	@Override
 	public int hashCode() {
 		return Objects.hash(uidPedido);
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> 6f88b4af03db3f55d701bd39d441e0200dcf7747
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -84,11 +53,4 @@ public class Pedido {
 		Pedido other = (Pedido) obj;
 		return Objects.equals(uidPedido, other.uidPedido);
 	}
-<<<<<<< HEAD
-	
-	
-	
-=======
-
->>>>>>> 6f88b4af03db3f55d701bd39d441e0200dcf7747
 }

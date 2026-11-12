@@ -17,16 +17,13 @@ import ceu.dam.ad.orm.practicas.basicas.ejercicio1.service.SeriesServiceExceptio
 @Component
 public class Test1 {
 	private final SeriesService service;
-	
+
 	public Test1(SeriesService service) {
 		this.service = service;
 	}
 
-
 	public void test() {
-
 		Serie serie = createTestSerie("Los lugares ocultos");
-		
 
 		try {
 			// Test crear
@@ -84,7 +81,6 @@ public class Test1 {
 		} catch (SerieNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private Serie createTestSerie(String titulo) {

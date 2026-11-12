@@ -34,7 +34,7 @@ public interface ComercialService {
 	/** Consultará una tienda a partir de su id. Si no existe, lanzará NotFoundException.
 	 * La entidad consultada no traerá ninguna de sus entidades asociadas. 
 	 * Si hay algún error, lanzará ComercialException	 */
-	public Tienda consularTienda(Long idTienda) throws ComercialException, NotFoundException;
+	public Tienda consultarTienda(Long idTienda) throws ComercialException, NotFoundException;
 	
 	
 	/** Debe borrar la tienda con el id indicado. Sólo borrará la tienda, ninguna

@@ -140,7 +140,7 @@ public class Test3 {
 	
 			System.out.println(">> Probamos a consultar tienda....");
 			try {
-				tiendaTest = service.consularTienda(tiendaTest.getId());
+				tiendaTest = service.consultarTienda(tiendaTest.getId());
 				System.out.println(">> Tienda obtenida: " + tiendaTest);
 				
 				try {
@@ -170,7 +170,7 @@ public class Test3 {
 			try {
 				service.borrarTienda(tiendaTest.getId());
 				try {
-					tiendaTest = service.consularTienda(tiendaTest.getId());
+					tiendaTest = service.consultarTienda(tiendaTest.getId());
 					System.out.println(">> No funciona borrar tienda porque después de borrar estoy consultando y no me lanza NotFound. Mira el error e intenta de nuevo.");
 					return;
 				}

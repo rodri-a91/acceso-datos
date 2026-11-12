@@ -12,18 +12,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+
 @Data
 @Entity
-@Table(name="temporadas")
+@Table(name = "temporadas")
 public class Temporada {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Integer numero;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="id_temporada")
+	@JoinColumn(name = "id_temporada")
 	private List<Episodio> episodios;
 
 }

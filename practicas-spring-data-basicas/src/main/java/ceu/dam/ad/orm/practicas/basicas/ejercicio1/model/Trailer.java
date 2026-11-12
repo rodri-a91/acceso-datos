@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="trailers")
+@Table(name = "trailers")
 public class Trailer {
 
 	@Id
@@ -17,7 +17,4 @@ public class Trailer {
 	private Long id;
 	private Integer duracion;
 
-
-	
-	
 }
