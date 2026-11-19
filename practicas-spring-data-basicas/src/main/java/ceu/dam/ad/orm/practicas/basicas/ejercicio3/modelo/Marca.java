@@ -21,12 +21,12 @@ public class Marca {
 	private String nombreComercial;
 
 	@ManyToOne()
-	@JoinColumn
+	@JoinColumn(name = "cod_pais", nullable = false)
 	private Pais pais;
 
 	@ManyToMany
 	@JoinTable(name = "centro_comercial_marcas", joinColumns = {
-			@JoinColumn(name = "cod_marca") }, inverseJoinColumns = { @JoinColumn(name = "uuid_centro") })
+			@JoinColumn(name = "uuid_centro") }, inverseJoinColumns = { @JoinColumn(name = "cod_marca") })
 	private List<CentroComercial> centrosComerciales;
 
 }

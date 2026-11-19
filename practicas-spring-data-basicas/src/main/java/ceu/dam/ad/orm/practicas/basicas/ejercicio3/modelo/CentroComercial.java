@@ -32,16 +32,17 @@ public class CentroComercial {
 
 	private String direccion;
 
-	@Column(name = "cod_pais")
+	@JoinColumn(name = "cod_pais")
 	@ManyToOne
 	private Pais pais;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "uuid_centro", nullable = false)
 	private List<Tienda> tiendas;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "centro_comercial_marcas", joinColumns = {
-			@JoinColumn(name = "uuid_centro") }, inverseJoinColumns = { @JoinColumn(name = "cod_marca") })
+			@JoinColumn(name = "cod_marca") }, inverseJoinColumns = { @JoinColumn(name = "uuid_centro") })
 	private List<Marca> marcas;
 
 	@Override

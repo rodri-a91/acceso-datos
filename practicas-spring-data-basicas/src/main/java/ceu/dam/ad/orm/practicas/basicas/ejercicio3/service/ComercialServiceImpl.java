@@ -69,6 +69,7 @@ public class ComercialServiceImpl implements ComercialService {
 	}
 
 	@Override
+	@Transactional
 	public void borrarCentroComercial(String uuidCentro) throws ComercialException {
 		try {
 			centroRepo.delete(consultarCentroComercial(uuidCentro));
