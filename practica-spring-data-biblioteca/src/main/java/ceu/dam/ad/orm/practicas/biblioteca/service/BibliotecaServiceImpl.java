@@ -59,11 +59,23 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 		return libroRepository.findAll(example);
 
 	}
+	/** Registra el préstamo de un libro a un socio. Si el socio o el libro no existen, lanza
+	 * NotFoundException. Lanzará BibliotecaException si:
+	 *  - el socio no tiene un carnet vigente,
+	 *  - el socio ya tiene 3 préstamos activos,
+	 *  - el socio tiene algún préstamo activo vencido,
+	 *  - el socio ya tiene prestado ese mismo libro (préstamo activo),
+	 *  - no quedan ejemplares disponibles del libro.
+	 * Si todo es correcto: el año del préstamo será el año actual y su número será el siguiente al mayor número
+	 * de préstamo registrado en ese año (de cualquier socio; 1 si es el primero del año), la fecha de préstamo será hoy y se descontará un ejemplar
+	 * disponible del libro. Todo ello debe ocurrir en una única transacción.
+	 * Devuelve el préstamo registrado. */
 
 	@Override
 	public Prestamo prestarLibro(String dniSocio, Long idLibro) throws NotFoundException, BibliotecaException {
+		
+		
 		return null;
-		// TODO: IMPLEMENTAR POR EL ALUMNO...
 	}
 
 	@Override
