@@ -31,6 +31,7 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 		if (s.isPresent())
 			throw new BibliotecaException("Ese socio ya existe");
 		Carnet carnet = new Carnet();
+		carnet.setSocio(socio);
 		carnet.setFechaAlta(LocalDate.now());
 		carnet.setFechaCaducidad(LocalDate.now().plusYears(1));
 		socio.setCarnet(carnet);
@@ -45,7 +46,7 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 
 	@Override
 	public Libro altaLibro(Libro libro) throws BibliotecaException {
-		Optional<Libro> libroConsul = libroRepository.findById(libro.getId());
+		Optional<Libro> libroConsul = libroRepository.findByIsbn(libro.getIsbn())
 		if (libroConsul.isPresent())
 			throw new BibliotecaException("Ese libro ya existe");
 
@@ -73,6 +74,7 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 
 	@Override
 	public Prestamo prestarLibro(String dniSocio, Long idLibro) throws NotFoundException, BibliotecaException {
+		socioRepository.findById(dniSocio);
 		
 		
 		return null;

@@ -2,6 +2,7 @@ package ceu.dam.ad.orm.practicas.biblioteca.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ public class Socio {
 	private String dni;
 	private String nombre;
 	private String apellidos;
-	@OneToOne(mappedBy = "socio")
+	@OneToOne(mappedBy = "socio", cascade = CascadeType.ALL)
 	private Carnet carnet;
 	@OneToMany(mappedBy = "socio", fetch = FetchType.EAGER)
 	private List<Prestamo> prestamos;
